@@ -8,4 +8,6 @@ public interface HuespedService {
     List<Huesped> listarTodos();
     Optional<Huesped> buscarPorId(Long id);
     Huesped guardar(Huesped huesped);
+    Huesped actualizar(Long id, Huesped huesped);
+    void eliminar(Long id);
 }

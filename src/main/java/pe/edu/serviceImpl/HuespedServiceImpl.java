@@ -23,4 +23,28 @@ public class HuespedServiceImpl implements HuespedService {
 
     @Override
     public Huesped guardar(Huesped huesped) { return huespedRepository.save(huesped); }
+
+    @Override
+    public Huesped actualizar(Long id, Huesped huesped) {
+        Huesped existente = huespedRepository.findById(id)
+            .orElseThrow(() ->
+                new IllegalArgumentException("No existe el huésped con ID " + id)
+            );
+
+        existente.setNombreCompleto(huesped.getNombreCompleto());
+        existente.setDocumento(huesped.getDocumento());
+        existente.setTelefono(huesped.getTelefono());
+        existente.setEmail(huesped.getEmail());
+        existente.setEstado(huesped.getEstado());
+
+        return huespedRepository.save(existente);
+    }
+
+    @Override
+    public void eliminar(Long id) {
+        if (!huespedRepository.existsById(id)) {
+            throw new IllegalArgumentException("No existe el huésped con ID " + id);
+        }
+        huespedRepository.deleteById(id);
+    }
 }

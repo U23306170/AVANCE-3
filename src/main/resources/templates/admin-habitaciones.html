@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/template}" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de habitaciones — Hotel El Descanso Eterno</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-xl py-4 py-lg-5">
+
+        <div class="alert alert-success alert-dismissible fade show" th:if="${mensajeExito != null}">
+            <span th:text="${mensajeExito}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show" th:if="${mensajeError != null}">
+            <span th:text="${mensajeError}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="page-title"><i class="bi bi-door-closed-fill me-2"></i>Habitaciones registradas</h2>
+            <button type="button" class="btn btn-primary fw-semibold" onclick="nuevaHabitacion()">
+                <i class="bi bi-plus-lg me-1"></i>Nueva habitación
+            </button>
+        </div>
+
+        <div class="row g-2 mb-4">
+            <div class="col-lg-5">
+                <input type="text" id="gBuscar" class="form-control filter-control"
+                       placeholder="Buscar por número o tipo...">
+            </div>
+        </div>
+
+        <div class="row g-3" id="gridHabitaciones">
+            <div class="col-md-6 col-lg-4 room-item" th:each="h : ${habitaciones}"
+                 th:attr="data-buscar=${#strings.toLowerCase(h.numero + ' ' + h.tipo)}">
+                <div class="guest-card">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="guest-name" th:text="|Hab. ${h.numero}|">Hab. 101</div>
+                            <div class="guest-info"><i class="bi bi-tag"></i><span th:text="${h.tipo}">Doble</span></div>
+                            <div class="guest-info"><i class="bi bi-people"></i><span th:text="${h.capacidad} + ' personas'">2 personas</span></div>
+                            <div class="guest-info">
+                                <i class="bi bi-cash"></i>
+                                <span th:text="'S/ ' + ${#numbers.formatDecimal(h.precio, 1, 2)} + ' / noche'">S/ 150.00 / noche</span>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <button type="button" class="btn-icon btn-icon-edit" title="Editar"
+                                    th:attr="data-id=${h.id}, data-numero=${h.numero}, data-tipo=${h.tipo},
+                                             data-precio=${h.precio}, data-capacidad=${h.capacidad}"
+                                    onclick="editarHabitacion(this)">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <form th:action="@{/admin/habitaciones/eliminar/{id}(id=${h.id})}" method="post"
+                                  onsubmit="return confirm('¿Eliminar la habitación ' + '${h.numero}' + '?');" class="d-inline">
+                                <button type="submit" class="btn-icon btn-icon-del" title="Eliminar">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="guest-foot">
+                        <small class="text-muted" th:text="'ID: ' + ${h.id}">ID: 1</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center text-muted py-4" id="gVacio"
+                 th:classappend="${#lists.isEmpty(habitaciones)} ? '' : 'd-none'">
+                No hay habitaciones registradas todavía.
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalHabitacion" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content needs-validation" novalidate th:action="@{/admin/habitaciones/guardar}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloModalHabitacion">Nueva habitación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="hbId">
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">Número</label>
+                            <input type="text" name="numero" id="hbNumero" class="form-control" required maxlength="50">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">Tipo</label>
+                            <input type="text" name="tipo" id="hbTipo" class="form-control" required maxlength="50"
+                                   placeholder="Simple, Doble, Suite...">
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">Precio por noche (S/)</label>
+                            <input type="number" step="0.01" min="0.01" name="precio" id="hbPrecio" class="form-control" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">Capacidad</label>
+                            <input type="number" step="1" min="1" name="capacidad" id="hbCapacidad" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script>
+        const gBuscar = document.getElementById('gBuscar');
+
+        function filtrarHabitaciones() {
+            const q = gBuscar.value.trim().toLowerCase();
+            let n = 0;
+            document.querySelectorAll('.room-item').forEach(c => {
+                const ok = c.dataset.buscar.includes(q);
+                c.classList.toggle('d-none', !ok);
+                if (ok) n++;
+            });
+            document.getElementById('gVacio').classList.toggle('d-none', n > 0);
+        }
+        gBuscar.addEventListener('input', filtrarHabitaciones);
+
+        const modalHabitacion = new bootstrap.Modal(document.getElementById('modalHabitacion'));
+
+        function nuevaHabitacion() {
+            const f = document.querySelector('#modalHabitacion form');
+            f.reset(); f.classList.remove('was-validated');
+            document.getElementById('hbId').value = '';
+            document.getElementById('tituloModalHabitacion').textContent = 'Nueva habitación';
+            modalHabitacion.show();
+        }
+
+        function editarHabitacion(btn) {
+            const d = btn.dataset;
+            document.querySelector('#modalHabitacion form').classList.remove('was-validated');
+            document.getElementById('tituloModalHabitacion').textContent = 'Editar habitación';
+            document.getElementById('hbId').value = d.id;
+            document.getElementById('hbNumero').value = d.numero;
+            document.getElementById('hbTipo').value = d.tipo;
+            document.getElementById('hbPrecio').value = d.precio;
+            document.getElementById('hbCapacidad').value = d.capacidad;
+            modalHabitacion.show();
+        }
+    </script>
+</th:block>
+</body>
+</html>

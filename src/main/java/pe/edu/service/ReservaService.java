@@ -8,5 +8,7 @@ public interface ReservaService {
     List<Reserva> listarTodas();
     Optional<Reserva> buscarPorId(Long id);
     Reserva guardar(Reserva reserva);
+    Reserva actualizar(Long id, Reserva reserva);
     void anular(Long id);
+    void eliminar(Long id);
 }

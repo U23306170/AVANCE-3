@@ -25,10 +25,36 @@ public class ReservaServiceImpl implements ReservaService {
     public Reserva guardar(Reserva reserva) { return reservaRepository.save(reserva); }
 
     @Override
+    public Reserva actualizar(Long id, Reserva reserva) {
+        Reserva existente = reservaRepository.findById(id)
+            .orElseThrow(() ->
+                new IllegalArgumentException("No existe la reserva con ID " + id)
+            );
+
+        existente.setHuesped(reserva.getHuesped());
+        existente.setHabitacion(reserva.getHabitacion());
+        existente.setFechaEntrada(reserva.getFechaEntrada());
+        existente.setFechaSalida(reserva.getFechaSalida());
+        existente.setNoches(reserva.getNoches());
+        existente.setTotal(reserva.getTotal());
+        existente.setEstado(reserva.getEstado());
+
+        return reservaRepository.save(existente);
+    }
+
+    @Override
     public void anular(Long id) {
         reservaRepository.findById(id).ifPresent(r -> {
             r.setEstado("Anulada");
             reservaRepository.save(r);
         });
+    }
+
+    @Override
+    public void eliminar(Long id) {
+        if (!reservaRepository.existsById(id)) {
+            throw new IllegalArgumentException("No existe la reserva con ID " + id);
+        }
+        reservaRepository.deleteById(id);
     }
 }

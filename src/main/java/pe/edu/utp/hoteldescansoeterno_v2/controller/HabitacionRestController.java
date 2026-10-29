@@ -14,9 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 import pe.edu.dto.HabitacionDTO;
 import pe.edu.entity.Habitacion;
 import pe.edu.service.HabitacionService;
-import pe.edu.dto.HabitacionDTO;
-import pe.edu.entity.Habitacion;
-import pe.edu.service.HabitacionService;
 
 import java.util.List;
 import java.util.Map;
