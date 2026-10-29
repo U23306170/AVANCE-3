@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/template}" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Huéspedes — Hotel El Descanso Eterno</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-xl py-4 py-lg-5">
+
+        <div class="alert alert-success alert-dismissible fade show" th:if="${mensajeExito != null}">
+            <span th:text="${mensajeExito}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="page-title"><i class="bi bi-person-lines-fill me-2"></i>Huéspedes registrados</h2>
+            <button type="button" class="btn btn-primary fw-semibold" onclick="nuevoHuesped()">
+                <i class="bi bi-plus-lg me-1"></i>Nuevo Huésped
+            </button>
+        </div>
+
+        <div class="row g-2 mb-4">
+            <div class="col-lg-5">
+                <input type="text" id="gBuscar" class="form-control filter-control"
+                       placeholder="Buscar por nombre, documento o correo...">
+            </div>
+            <div class="col-lg-3 col-6">
+                <select id="gEstado" class="form-select filter-control">
+                    <option value="">Todos los estados</option>
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row g-3" id="gridHuespedes">
+            <div class="col-md-6 col-lg-4 guest-item" th:each="h : ${huespedes}"
+                 th:attr="data-buscar=${#strings.toLowerCase(h.nombreCompleto + ' ' + h.documento + ' ' + h.email)},
+                          data-estado=${#strings.toLowerCase(h.estado)}">
+                <div class="guest-card">
+                    <div class="d-flex gap-3">
+                        <div class="guest-avatar" th:text="${h.iniciales}">LG</div>
+                        <div class="flex-grow-1 min-w-0">
+                            <div class="guest-name text-truncate" th:text="${h.nombreCompleto}">Lucía García</div>
+                            <div class="guest-info"><i class="bi bi-person-vcard"></i><span th:text="${h.documento}">72345678</span></div>
+                            <div class="guest-info"><i class="bi bi-telephone"></i><span th:text="${h.telefono}">987654321</span></div>
+                            <div class="guest-info text-truncate"><i class="bi bi-envelope"></i><span th:text="${h.email}">correo@gmail.com</span></div>
+                        </div>
+                        <div>
+                            <button type="button" class="btn-icon btn-icon-edit" title="Editar"
+                                    th:attr="data-id=${h.id}, data-nombre=${h.nombreCompleto}, data-documento=${h.documento},
+                                             data-telefono=${h.telefono}, data-email=${h.email}, data-estado=${h.estado}"
+                                    onclick="editarHuesped(this)">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="guest-foot">
+                        <span class="pill-estado" th:classappend="${h.estado == 'Activo'} ? 'pill-ok' : 'pill-neutral'"
+                              th:text="${h.estado}">Activo</span>
+                        <small class="text-muted" th:text="'ID: ' + ${h.id}">ID: 1</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center text-muted py-4" id="gVacio" th:classappend="${#lists.isEmpty(huespedes)} ? '' : 'd-none'">
+                No hay huéspedes para mostrar.
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalHuesped" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content needs-validation" novalidate th:action="@{/huespedes/guardar}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloModalHuesped">Nuevo Huésped</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="hId">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Nombre completo</label>
+                        <input type="text" name="nombreCompleto" id="hNombre" class="form-control" required maxlength="100">
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">Documento</label>
+                            <input type="text" name="documento" id="hDocumento" class="form-control" required maxlength="15">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">Teléfono</label>
+                            <input type="tel" name="telefono" id="hTelefono" class="form-control" required maxlength="15">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Correo electrónico</label>
+                        <input type="email" name="email" id="hEmail" class="form-control" required>
+                    </div>
+                    <div>
+                        <label class="form-label fw-semibold">Estado</label>
+                        <select name="estado" id="hEstado" class="form-select">
+                            <option>Activo</option>
+                            <option>Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script>
+        const gBuscar = document.getElementById('gBuscar');
+        const gEstado = document.getElementById('gEstado');
+
+        function filtrarHuespedes() {
+            const q = gBuscar.value.trim().toLowerCase();
+            let n = 0;
+            document.querySelectorAll('.guest-item').forEach(c => {
+                const ok = c.dataset.buscar.includes(q) && (!gEstado.value || c.dataset.estado === gEstado.value);
+                c.classList.toggle('d-none', !ok);
+                if (ok) n++;
+            });
+            document.getElementById('gVacio').classList.toggle('d-none', n > 0);
+        }
+        gBuscar.addEventListener('input', filtrarHuespedes);
+        gEstado.addEventListener('input', filtrarHuespedes);
+
+        const modalHuesped = new bootstrap.Modal(document.getElementById('modalHuesped'));
+
+        function nuevoHuesped() {
+            const f = document.querySelector('#modalHuesped form');
+            f.reset(); f.classList.remove('was-validated');
+            document.getElementById('hId').value = '';
+            document.getElementById('tituloModalHuesped').textContent = 'Nuevo Huésped';
+            modalHuesped.show();
+        }
+
+        function editarHuesped(btn) {
+            const d = btn.dataset;
+            document.querySelector('#modalHuesped form').classList.remove('was-validated');
+            document.getElementById('tituloModalHuesped').textContent = 'Editar Huésped';
+            document.getElementById('hId').value = d.id;
+            document.getElementById('hNombre').value = d.nombre;
+            document.getElementById('hDocumento').value = d.documento;
+            document.getElementById('hTelefono').value = d.telefono;
+            document.getElementById('hEmail').value = d.email;
+            document.getElementById('hEstado').value = d.estado;
+            modalHuesped.show();
+        }
+    </script>
+</th:block>
+</body>
+</html>

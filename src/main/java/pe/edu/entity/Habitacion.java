@@ -1,4 +1,4 @@
-package pe.edu.utp.hoteldescansoeterno_v2.entity;
+package pe.edu.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;

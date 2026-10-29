@@ -5,124 +5,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hotel El Descanso Eterno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="static/css/styles.css" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" href="../../static/css/styles.css" rel="stylesheet">
 </head>
 
-<body class="bg-light d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100">
 
-    <!-- ========== NAVBAR (visible en todas las páginas) ========== -->
-    <nav class="navbar navbar-expand-lg navbar-secondary bg-secondary sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-normal" th:href="@{/}">
-                <i class="bi bi-building me-2"></i>Hotel El Descanso Eterno
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navMenu">
-                <ul class="navbar-nav ms-auto gap-1">
-                    <li class="nav-item">
-                        <a th:href="@{/}" th:classappend="${activePage == 'home'} ? ' active'" class="nav-link">
-                            <i class="bi bi-house me-1"></i>Inicio
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/habitaciones}" th:classappend="${activePage == 'habitaciones'} ? ' active'"
-                            class="nav-link">
-                            <i class="bi bi-door-open me-1"></i>Habitaciones
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/nosotros}" th:classappend="${activePage == 'nosotros'} ? ' active'"
-                            class="nav-link">
-                            <i class="bi bi-info-circle me-1"></i>Nosotros
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/contacto}" th:classappend="${activePage == 'contacto'} ? ' active'"
-                            class="nav-link">
-                            <i class="bi bi-envelope me-1"></i>Contacto
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/login}" th:classappend="${activePage == 'login'} ? ' active'"
-                            class="nav-link">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>Ingresar
-                        </a>
-                    </li>
+<nav class="navbar navbar-expand-lg navbar-dark site-navbar sticky-top">
+    <div class="container-xl">
+        <a class="navbar-brand brand fw-bold" th:href="@{/}">
+            <i class="bi bi-buildings-fill me-2 text-brand-peach"></i>Hotel El Descanso Eterno
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+                aria-label="Abrir menú">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                <li class="nav-item">
+                    <a th:href="@{/}" th:classappend="${activePage == 'home'} ? ' active'" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/habitaciones}" th:classappend="${activePage == 'habitaciones'} ? ' active'"
+                       class="nav-link">Habitaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/reservas}" th:classappend="${activePage == 'reservas'} ? ' active'"
+                       class="nav-link">Reservas</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/huespedes}" th:classappend="${activePage == 'huespedes'} ? ' active'"
+                       class="nav-link">Huéspedes</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/nosotros}" th:classappend="${activePage == 'nosotros'} ? ' active'"
+                       class="nav-link">Nosotros</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/contacto}" th:classappend="${activePage == 'contacto'} ? ' active'"
+                       class="nav-link">Contacto</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/login}" th:classappend="${activePage == 'login'} ? ' active'"
+                       class="nav-link nav-link-ingresar">Ingresar</a>
+                </li>
+                <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                    <a th:href="@{/login}" class="nav-avatar" title="Mi cuenta" aria-label="Mi cuenta">
+                        <i class="bi bi-person"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="flex-grow-1">
+    <div layout:fragment="content"></div>
+</main>
+
+<footer class="site-footer text-white pt-5 pb-4">
+    <div class="container-xl">
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <p class="footer-brand mb-2"><i class="bi bi-buildings-fill me-2 text-brand-peach"></i>El Descanso Eterno</p>
+                <p class="footer-text mb-0">
+                    Hospitalidad, tranquilidad y descanso de primer nivel en la zona empresarial más exclusiva de Lima.
+                </p>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h6 class="footer-title">Ubicación y Contacto</h6>
+                <ul class="list-unstyled footer-text mb-0">
+                    <li class="mb-2"><i class="bi bi-geo-alt me-2 text-brand-peach"></i>Av. Los Conquistadores 840, San Isidro, Lima - Perú</li>
+                    <li class="mb-2"><i class="bi bi-telephone me-2 text-brand-peach"></i>+51 (1) 422-5890</li>
+                    <li><i class="bi bi-envelope me-2 text-brand-peach"></i>reservas@eldescansoeterno.pe</li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h6 class="footer-title">Navegación</h6>
+                <ul class="list-unstyled footer-text mb-0 footer-links">
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/habitaciones}">Tarifas y Habitaciones</a></li>
+                    <li><a th:href="@{/reservas}">Gestión de Reservas</a></li>
+                    <li><a th:href="@{/huespedes}">Portal de Huéspedes</a></li>
+                    <li><a th:href="@{/nosotros}">Nuestra Historia</a></li>
+                    <li><a th:href="@{/contacto}">Atención al Huésped</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h6 class="footer-title">Horarios y Servicios</h6>
+                <ul class="list-unstyled footer-text mb-0">
+                    <li class="mb-1">Check-in: 15:00 hrs | Check-out: 12:00 hrs</li>
+                    <li class="mb-1">Servicio a la habitación 24/7</li>
+                    <li>Estacionamiento privado vigilado</li>
                 </ul>
             </div>
         </div>
-    </nav>
 
-    <main class="flex-grow-1">
-        <!-- ========== CONTENIDO DE CADA PÁGINA ========== -->
-        <div layout:fragment="content"></div>
-    </main>
+        <hr class="footer-divider my-4">
 
-    <!-- ========== FOOTER (visible en todas las páginas) ========== -->
-    <footer class="bg-secondary text-white py-4 mt-5">
-        <div class="container">
-            <div class="row g-3 align-items-center">
-                <div class="col-md-4">
-                    <p class="fw-bold text-warning mb-1"><i class="bi bi-building me-2"></i>Hotel El Descanso Eterno</p>
-                    <p class="text-white-50 mb-0 small">San Isidro, Lima — Perú</p>
-                </div>
-                <div class="col-md-4 text-md-center">
-                    <p class="text-white-50 mb-0 small">
-                        <i class="bi bi-telephone me-1"></i>(01) 234-5674
-                        &nbsp;|&nbsp;
-                        <i class="bi bi-envelope me-1"></i>reservas@eldescansoeterno.pe
-                    </p>
-                </div>
-                <div class="col-md-4 text-md-end">
-                    <p class="text-white-50 mb-0 small">
-                        Administrado por<br>
-                        <span class="text-warning">Grupo 3</span>
-                    </p>
-                </div>
+        <div class="row align-items-center g-3">
+            <div class="col-lg-7">
+                <p class="footer-legal mb-0 text-center text-lg-start">
+                    &copy; <span th:text="${#dates.year(#dates.createNow())}">2026</span> Hotel El Descanso Eterno S.A.C.
+                    Todos los derechos reservados. San Isidro, Lima - Perú.
+                </p>
             </div>
-
-            <hr class="border-light-subtle opacity-25 my-3">
-
-            <div class="row align-items-center g-3">
-                <div class="col-md-8">
-                    <p class="text-white-50 mb-0 small text-center text-md-start">
-                        &copy; <span th:text="${#dates.year(#dates.createNow())}"></span> Hotel El Descanso Eterno.
-                        Todos los derechos reservados.
-                    </p>
-                </div>
-                <div class="col-md-4">
-                    <div class="d-flex justify-content-center justify-content-md-end gap-3 fs-5">
-                        <a href="#" class="text-white-50" title="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-white-50" title="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-white-50" title="TikTok"><i class="bi bi-tiktok"></i></a>
-                        <a href="https://wa.me/51987654321" target="_blank" class="text-white-50" title="WhatsApp">
-                            <i class="bi bi-whatsapp"></i>
-                        </a>
-                    </div>
+            <div class="col-lg-5">
+                <div class="d-flex flex-wrap justify-content-center justify-content-lg-end gap-3 footer-legal footer-links">
+                    <a href="#">Políticas de Privacidad</a>
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Libro de Reclamaciones</a>
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.needs-validation').forEach(form => {
-                form.addEventListener('submit', e => {
-                    if (!form.checkValidity()) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                });
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.needs-validation').forEach(form => {
+            form.addEventListener('submit', e => {
+                if (!form.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                form.classList.add('was-validated');
             });
         });
-    </script>
-    <th:block layout:fragment="scripts"></th:block>
+    });
+</script>
+<th:block layout:fragment="scripts"></th:block>
 </body>
 
 </html>

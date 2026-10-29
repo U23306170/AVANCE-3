@@ -11,9 +11,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import pe.edu.utp.hoteldescansoeterno_v2.dto.HabitacionDTO;
-import pe.edu.utp.hoteldescansoeterno_v2.entity.Habitacion;
-import pe.edu.utp.hoteldescansoeterno_v2.service.HabitacionService;
+import pe.edu.dto.HabitacionDTO;
+import pe.edu.entity.Habitacion;
+import pe.edu.service.HabitacionService;
+import pe.edu.dto.HabitacionDTO;
+import pe.edu.entity.Habitacion;
+import pe.edu.service.HabitacionService;
 
 import java.util.List;
 import java.util.Map;

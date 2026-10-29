@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/template}" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservas — Hotel El Descanso Eterno</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-xl py-4 py-lg-5">
+
+        <div class="alert alert-success alert-dismissible fade show" th:if="${mensajeExito != null}">
+            <span th:text="${mensajeExito}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade show" th:if="${mensajeError != null}">
+            <span th:text="${mensajeError}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="page-title"><i class="bi bi-calendar-check me-2"></i>Listado de Reservas</h2>
+            <button type="button" class="btn btn-primary fw-semibold" onclick="nuevaReserva()">
+                <i class="bi bi-plus-lg me-1"></i>Nueva Reserva
+            </button>
+        </div>
+
+        <div class="row g-2 mb-3">
+            <div class="col-lg-4">
+                <input type="text" id="fBuscar" class="form-control filter-control" placeholder="Buscar por huésped...">
+            </div>
+            <div class="col-lg-3 col-6">
+                <select id="fEstado" class="form-select filter-control">
+                    <option value="">Todos los estados</option>
+                    <option value="confirmada">Confirmada</option>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="anulada">Anulada</option>
+                </select>
+            </div>
+            <div class="col-lg-3 col-6">
+                <select id="fTipo" class="form-select filter-control">
+                    <option value="">Todos los tipos</option>
+                    <option th:each="t : ${tipos}" th:value="${#strings.toLowerCase(t)}" th:text="${t}"></option>
+                </select>
+            </div>
+            <div class="col-lg-2">
+                <button type="button" id="fLimpiar" class="btn btn-light filter-control w-100 border">
+                    <i class="bi bi-x-lg me-1"></i>Limpiar
+                </button>
+            </div>
+        </div>
+
+        <div class="data-card">
+            <div class="table-responsive">
+                <table class="table data-table align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Huésped</th>
+                        <th>Habitación</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                        <th>Noches</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbodyReservas">
+                    <tr th:each="r : ${reservas}" class="fila-reserva"
+                        th:attr="data-huesped=${#strings.toLowerCase(r.huesped.nombreCompleto)},
+                                 data-estado=${#strings.toLowerCase(r.estado)},
+                                 data-tipo=${#strings.toLowerCase(r.habitacion.tipo)}">
+                        <td class="text-muted fw-semibold" th:text="'#' + ${r.id}">#1</td>
+                        <td class="fw-semibold" th:text="${r.huesped.nombreCompleto}">María Gutiérrez</td>
+                        <td th:text="${r.habitacion.numero + ' — ' + r.habitacion.tipo}">101 — Simple</td>
+                        <td th:text="${r.fechaEntrada}">2026-09-05</td>
+                        <td th:text="${r.fechaSalida}">2026-09-08</td>
+                        <td th:text="${r.noches}">3</td>
+                        <td class="fw-bold"
+                            th:text="'S/ ' + ${#numbers.formatDecimal(r.total, 1, 'COMMA', 2, 'POINT')}">S/ 360.00</td>
+                        <td>
+                            <span class="pill-estado"
+                                  th:classappend="${r.estado == 'Confirmada'} ? 'pill-ok' : (${r.estado == 'Pendiente'} ? 'pill-warn' : 'pill-bad')"
+                                  th:text="${r.estado}">Confirmada</span>
+                        </td>
+                        <td class="text-center text-nowrap">
+                            <button type="button" class="btn-icon btn-icon-edit" title="Editar"
+                                    th:disabled="${r.estado == 'Anulada'}"
+                                    th:attr="data-id=${r.id}, data-huesped=${r.huesped.id}, data-habitacion=${r.habitacion.id},
+                                             data-entrada=${r.fechaEntrada}, data-salida=${r.fechaSalida}, data-estado=${r.estado}"
+                                    onclick="editarReserva(this)">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button type="button" class="btn-icon btn-icon-del" title="Anular"
+                                    th:disabled="${r.estado == 'Anulada'}"
+                                    th:attr="data-url=@{/reservas/anular/{id}(id=${r.id})}, data-nombre=${r.huesped.nombreCompleto}"
+                                    onclick="confirmarAnular(this)">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr id="filaSinResultados" th:class="${#lists.isEmpty(reservas)} ? '' : 'd-none'">
+                        <td colspan="9" class="text-center text-muted py-4">No hay reservas para mostrar.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalReserva" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content needs-validation" novalidate th:action="@{/reservas/guardar}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloModalReserva">Nueva Reserva</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="rId">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Huésped</label>
+                        <select name="huespedId" id="rHuesped" class="form-select" required>
+                            <option value="">Selecciona un huésped</option>
+                            <option th:each="h : ${huespedes}" th:value="${h.id}"
+                                    th:text="${h.nombreCompleto + ' — ' + h.documento}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Habitación</label>
+                        <select name="habitacionId" id="rHabitacion" class="form-select" required>
+                            <option value="">Selecciona una habitación</option>
+                            <option th:each="h : ${habitaciones}" th:value="${h.id}" th:attr="data-precio=${h.precio}"
+                                    th:text="${h.numero + ' — ' + h.tipo + ' (S/ ' + h.precio + ' / noche)'}"></option>
+                        </select>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">Entrada</label>
+                            <input type="date" name="fechaEntrada" id="rEntrada" class="form-control" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">Salida</label>
+                            <input type="date" name="fechaSalida" id="rSalida" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Estado</label>
+                        <select name="estado" id="rEstado" class="form-select" required>
+                            <option>Confirmada</option>
+                            <option>Pendiente</option>
+                            <option>Anulada</option>
+                        </select>
+                    </div>
+                    <div class="resumen-reserva">
+                        <span><i class="bi bi-moon-stars me-1"></i><b id="rNoches">0</b> noches</span>
+                        <span>Total: <b id="rTotal">S/ 0.00</b></span>
+                    </div>
+                    <div class="text-danger small mt-2 d-none" id="rError">La salida debe ser posterior a la entrada.</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalAnular" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <form class="modal-content" id="formAnular" method="post">
+                <div class="modal-body text-center p-4">
+                    <i class="bi bi-exclamation-triangle-fill text-danger fs-1"></i>
+                    <h6 class="mt-2 fw-bold">¿Anular esta reserva?</h6>
+                    <p class="small text-muted mb-3">Huésped: <b id="anularNombre"></b></p>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-light border btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger btn-sm">Sí, anular</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="scripts">
+    <script>
+        const fBuscar = document.getElementById('fBuscar');
+        const fEstado = document.getElementById('fEstado');
+        const fTipo = document.getElementById('fTipo');
+
+        function filtrar() {
+            const q = fBuscar.value.trim().toLowerCase();
+            let visibles = 0;
+            document.querySelectorAll('.fila-reserva').forEach(tr => {
+                const ok = tr.dataset.huesped.includes(q)
+                    && (!fEstado.value || tr.dataset.estado === fEstado.value)
+                    && (!fTipo.value || tr.dataset.tipo === fTipo.value);
+                tr.classList.toggle('d-none', !ok);
+                if (ok) visibles++;
+            });
+            document.getElementById('filaSinResultados').classList.toggle('d-none', visibles > 0);
+        }
+        [fBuscar, fEstado, fTipo].forEach(el => el.addEventListener('input', filtrar));
+        document.getElementById('fLimpiar').addEventListener('click', () => {
+            fBuscar.value = ''; fEstado.value = ''; fTipo.value = ''; filtrar();
+        });
+
+        const modalReserva = new bootstrap.Modal(document.getElementById('modalReserva'));
+        const rEntrada = document.getElementById('rEntrada');
+        const rSalida = document.getElementById('rSalida');
+        const rHab = document.getElementById('rHabitacion');
+
+        function calcular() {
+            const e = new Date(rEntrada.value), s = new Date(rSalida.value);
+            const precio = parseFloat(rHab.selectedOptions[0]?.dataset.precio || 0);
+            let noches = Math.round((s - e) / 86400000);
+            const invalido = !(noches > 0);
+            document.getElementById('rError').classList.toggle('d-none', !(rEntrada.value && rSalida.value && invalido));
+            if (invalido) noches = 0;
+            document.getElementById('rNoches').textContent = noches;
+            document.getElementById('rTotal').textContent = 'S/ ' + (noches * precio).toFixed(2);
+            rSalida.setCustomValidity(rEntrada.value && rSalida.value && invalido ? 'x' : '');
+        }
+        [rEntrada, rSalida, rHab].forEach(el => el.addEventListener('input', calcular));
+
+        function nuevaReserva() {
+            const f = document.querySelector('#modalReserva form');
+            f.reset(); f.classList.remove('was-validated');
+            document.getElementById('rId').value = '';
+            document.getElementById('tituloModalReserva').textContent = 'Nueva Reserva';
+            document.getElementById('rEstado').value = 'Confirmada';
+            calcular(); modalReserva.show();
+        }
+
+        function editarReserva(btn) {
+            const d = btn.dataset;
+            document.querySelector('#modalReserva form').classList.remove('was-validated');
+            document.getElementById('tituloModalReserva').textContent = 'Editar Reserva #' + d.id;
+            document.getElementById('rId').value = d.id;
+            document.getElementById('rHuesped').value = d.huesped;
+            rHab.value = d.habitacion;
+            rEntrada.value = d.entrada;
+            rSalida.value = d.salida;
+            document.getElementById('rEstado').value = d.estado;
+            calcular(); modalReserva.show();
+        }
+
+        function confirmarAnular(btn) {
+            document.getElementById('formAnular').action = btn.dataset.url;
+            document.getElementById('anularNombre').textContent = btn.dataset.nombre;
+            new bootstrap.Modal(document.getElementById('modalAnular')).show();
+        }
+    </script>
+</th:block>
+</body>
+</html>

@@ -43,4 +43,17 @@ public class HabitacionView {
         return "Pet-friendly".equals(tipo) ? "bg-warning-subtle" : "bg-light";
     }
     public String getAmenidadesStr() { return String.join(", ", amenidades); }
+
+    // Imagen opcional de la habitación (ruta dentro de /static) y un icono de respaldo
+    public String getImagen() {
+        return "Pet-friendly".equals(tipo) ? "img/isidro3.jpg" : null;
+    }
+    public String getIcono() {
+        switch (tipo) {
+            case "Simple": return "bi-person-workspace";
+            case "Doble": return "bi-houses";
+            case "Suite": return "bi-gem";
+            default: return "bi-door-open";
+        }
+    }
 }

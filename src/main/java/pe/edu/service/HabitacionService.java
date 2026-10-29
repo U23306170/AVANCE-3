@@ -1,6 +1,6 @@
-package pe.edu.utp.hoteldescansoeterno_v2.service;
+package pe.edu.service;
 
-import pe.edu.utp.hoteldescansoeterno_v2.entity.Habitacion;
+import pe.edu.entity.Habitacion;
 
 import java.util.List;
 import java.util.Optional;

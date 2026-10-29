@@ -1,4 +1,4 @@
-package pe.edu.utp.hoteldescansoeterno_v2.dto;
+package pe.edu.dto;
 
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;

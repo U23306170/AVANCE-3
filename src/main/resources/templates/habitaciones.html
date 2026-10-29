@@ -57,47 +57,6 @@
         </div>
     </section>
 
-    <section id="formularioSolicitud" class="container my-5">
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <i class="bi bi-calendar-plus me-2"></i>Solicitar una reserva
-            </div>
-            <div class="card-body">
-                <form th:action="@{/habitaciones/solicitar}" method="post" class="row g-3 needs-validation" novalidate>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Nombre completo</label>
-                        <input type="text" class="form-control" name="nombre" required>
-                        <div class="invalid-feedback">El nombre es obligatorio.</div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Habitación</label>
-                        <select class="form-select" name="habitacion" required>
-                            <option value="" selected disabled>Selecciona una habitación</option>
-                            <option th:each="h : ${habitaciones}" th:value="${h.numero}"
-                                    th:text="|Hab. ${h.numero} — ${h.tipo}|"></option>
-                        </select>
-                        <div class="invalid-feedback">Selecciona una habitación.</div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Fecha de entrada</label>
-                        <input type="date" class="form-control" name="fechaEntrada" required>
-                        <div class="invalid-feedback">Ingresa la fecha de entrada.</div>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Fecha de salida</label>
-                        <input type="date" class="form-control" name="fechaSalida" required>
-                        <div class="invalid-feedback">Ingresa la fecha de salida.</div>
-                    </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary px-4">
-                            <i class="bi bi-send me-1"></i>Enviar solicitud
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
-
     <div class="modal fade" id="modalDetalleHab" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">

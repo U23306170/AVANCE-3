@@ -4,116 +4,121 @@
 
 <head>
     <title>Inicio — Hotel El Descanso Eterno</title>
-    <link href="static/css/styles.css" rel="stylesheet">
 </head>
 
 <body>
 <div layout:fragment="content">
 
-    <div class="bg-secondary text-white py-5">
-        <div class="container">
-            <p class="text-uppercase text-warning fw-bold small mb-2" style="letter-spacing:2px">Bienvenido</p>
-            <h1 class="display-5 fw-bold">Hotel El Descanso Eterno</h1>
-            <p class="lead text-white-50 mt-3">
-                Comodidad, seguridad y un servicio exclusivo pet-friendly para tu próxima estadía.
-            </p>
-            <div class="d-flex flex-wrap gap-3 mt-4">
-                <a th:href="@{/habitaciones}" class="btn btn-warning fw-bold px-4">
-                    <i class="bi bi-door-open me-2"></i>Ver habitaciones
-                </a>
-                <a th:href="@{/contacto}" class="btn btn-outline-light px-4">
-                    <i class="bi bi-envelope me-2"></i>Contáctanos
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="container my-5">
-        <div id="galeria" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#galeria" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#galeria" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#galeria" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active"><img th:src="@{img/isidro1.jpg}" class="carousel-img" alt="isidro1"></div>
-                <div class="carousel-item"><img th:src="@{img/isidro2.jpg}" class="carousel-img" alt="isidro2"></div>
-                <div class="carousel-item"><img th:src="@{img/isidro3.jpg}" class="carousel-img" alt="isidro3"></div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#galeria" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#galeria" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            </button>
-        </div>
-    </div>
-
-    <section class="container my-5">
-        <h2 class="fw-bold border-start border-4 border-success ps-3 mb-4">
-            <i class="bi bi-stars me-2"></i>Nuestros servicios
-        </h2>
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4 text-center">
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm py-4 servicio-card">
-                    <i class="bi bi-wifi text-primary" style="font-size: 2.5rem;"></i>
-                    <h6 class="fw-bold mt-3 mb-1">WiFi gratis</h6>
+    <section class="hero-home">
+        <div class="container-xl">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7">
+                    <span class="hero-pill"><i class="bi bi-star me-1"></i>San Isidro, Lima • Experiencia Premium</span>
+                    <h1 class="hero-title mt-3">Comodidad, seguridad y descanso sin interrupciones.</h1>
+                    <p class="hero-lead">
+                        Ubicado en el epicentro financiero y cultural de San Isidro. Habitaciones con aislamiento
+                        acústico integral, desayuno buffet de autor y política pet-friendly certificada.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3 mt-4">
+                        <a th:href="@{/habitaciones}" class="btn btn-peach fw-bold px-4">
+                            <i class="bi bi-door-open me-2"></i>Ver habitaciones
+                        </a>
+                        <a th:href="@{/contacto}" class="btn btn-ghost px-4">
+                            <i class="bi bi-chat-square-text me-2"></i>Contáctanos
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm py-4 servicio-card">
-                    <i class="bi bi-cup-hot text-warning" style="font-size: 2.5rem;"></i>
-                    <h6 class="fw-bold mt-3 mb-1">Desayuno incluido</h6>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm py-4 servicio-card">
-                    <i class="bi bi-water text-info" style="font-size: 2.5rem;"></i>
-                    <h6 class="fw-bold mt-3 mb-1">Piscina</h6>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm py-4 servicio-card">
-                    <i class="bi bi-heart text-danger" style="font-size: 2.5rem;"></i>
-                    <h6 class="fw-bold mt-3 mb-1">Pet-friendly</h6>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm py-4 servicio-card">
-                    <i class="bi bi-p-square text-success" style="font-size: 2.5rem;"></i>
-                    <h6 class="fw-bold mt-3 mb-1">Estacionamiento</h6>
+                <div class="col-lg-5">
+                    <div class="hero-card">
+                        <img th:src="@{/img/isidro2.jpg}" alt="Hotel El Descanso Eterno, San Isidro">
+                        <div class="hero-card-caption">
+                            <small class="text-uppercase fw-bold text-brand-peach">Ubicación estratégica</small>
+                            <strong class="d-block fs-5">Av. Los Conquistadores, San Isidro</strong>
+                            <small class="text-white-50">A 2 minutos del centro financiero y del Olivar colonial.</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="container my-5">
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
-            <h2 class="fw-bold border-start border-4 border-primary ps-3 mb-0">
-                <i class="bi bi-door-open me-2"></i>Nuestras habitaciones
-            </h2>
-            <span class="badge fs-6 py-2 px-3 bg-success">
-                <span th:text="${habitacionesLibres}">0</span> de
-                <span th:text="${totalHabitaciones}">0</span> disponibles
-            </span>
+    <section class="container-xl section-block">
+        <h2 class="section-title"><i class="bi bi-stars me-2 text-brand"></i>Nuestros servicios</h2>
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 text-center">
+            <div class="col">
+                <div class="servicio-card h-100">
+                    <span class="servicio-icon bg-brand-soft text-brand"><i class="bi bi-wifi"></i></span>
+                    <h6>WiFi gratis</h6>
+                    <p>Fibra óptica 300 Mbps en cada habitación</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="servicio-card h-100">
+                    <span class="servicio-icon bg-peach-soft text-peach"><i class="bi bi-cup-hot"></i></span>
+                    <h6>Desayuno incluido</h6>
+                    <p>Buffet artesanal fresco diario de 6:30 a 10:30</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="servicio-card h-100">
+                    <span class="servicio-icon bg-brand-soft text-brand"><i class="bi bi-water"></i></span>
+                    <h6>Piscina temperada</h6>
+                    <p>Techada, con circuito de relajación hidro</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="servicio-card h-100">
+                    <span class="servicio-icon bg-danger-soft text-danger"><i class="bi bi-heart-fill"></i></span>
+                    <h6>Pet-friendly</h6>
+                    <p>Cama ortopédica y kit especial de bienvenida</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="servicio-card h-100">
+                    <span class="servicio-icon bg-neutral-soft text-navy"><i class="bi bi-p-square-fill"></i></span>
+                    <h6>Estacionamiento</h6>
+                    <p>Cochera privada subterránea con vigilancia 24/7</p>
+                </div>
+            </div>
         </div>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            <div class="col" th:each="h : ${habitaciones}">
-                <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between align-items-center" th:classappend="${h.headerClass}">
-                        <span th:text="|Hab. ${h.numero} — ${h.tipo}|"></span>
-                        <span class="badge" th:classappend="${h.estadoBadgeClass}" th:text="${h.estadoMostrado}"></span>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text text-muted" th:text="${h.descripcion}"></p>
-                        <p class="fw-bold fs-5 text-warning mb-0">
-                            S/ <span th:text="${#numbers.formatInteger(h.precio, 1)}"></span>
-                            <span class="text-muted fw-normal fs-6">/ noche</span>
+    </section>
+
+    <section class="band-soft">
+        <div class="container-xl section-block">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                <h2 class="section-title mb-0"><i class="bi bi-buildings me-2 text-brand"></i>Nuestras habitaciones</h2>
+                <span class="pill-info">
+                    <i class="bi bi-circle-fill me-2"></i>
+                    <span th:text="${habitacionesLibres}">0</span> de
+                    <span th:text="${totalHabitaciones}">0</span> categorías con disponibilidad hoy
+                </span>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+                <div class="col" th:each="h : ${habitaciones}">
+                    <div class="room-card h-100">
+                        <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+                            <strong class="room-title" th:text="|Hab. ${h.numero} — ${h.tipo}|">Hab. 101 — Simple</strong>
+                            <span class="room-badge" th:classappend="${h.disponible} ? 'is-ok' : 'is-busy'"
+                                  th:text="${h.disponible} ? 'DISPONIBLE' : 'OCUPADA HOY'">DISPONIBLE</span>
+                        </div>
+                        <div class="room-photo">
+                            <img th:if="${h.imagen != null}" th:src="@{/{img}(img=${h.imagen})}" th:alt="${h.tipo}" alt="Habitación">
+                            <div th:unless="${h.imagen != null}" class="room-photo-ph">
+                                <i class="bi" th:classappend="${h.icono}"></i>
+                            </div>
+                            <span th:unless="${h.disponible}" class="room-photo-tag">Disponible desde mañana</span>
+                        </div>
+                        <p class="room-desc" th:text="${h.descripcion}">Descripción</p>
+                        <p class="room-price">
+                            S/ <span th:text="${#numbers.formatInteger(h.precio, 1)}">120</span>
+                            <small>/ noche</small>
                         </p>
-                    </div>
-                    <div class="card-footer">
-                        <a th:href="@{/habitaciones}" class="btn btn-primary btn-sm w-100">
+                        <a th:if="${h.disponible}" th:href="@{/habitaciones}" class="btn btn-brand btn-sm w-100">
                             <i class="bi bi-eye me-1"></i>Ver más
+                        </a>
+                        <a th:unless="${h.disponible}" th:href="@{/habitaciones#formularioSolicitud}"
+                           class="btn btn-disabled-look btn-sm w-100">
+                            <i class="bi bi-calendar-event me-1"></i>Consultar fechas
                         </a>
                     </div>
                 </div>
@@ -121,41 +126,127 @@
         </div>
     </section>
 
-    <section class="container my-5">
-        <h2 class="fw-bold border-start border-4 border-warning ps-3 mb-4">
-            <i class="bi bi-chat-quote me-2"></i>Lo que dicen nuestros huéspedes
-        </h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm p-4">
-                    <h6 class="fw-bold mb-1">María Gutiérrez</h6>
-                    <div class="text-warning small mb-2">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+    <section class="container-xl section-block">
+        <div class="why-box">
+            <div class="row g-4 align-items-stretch">
+                <div class="col-lg-7">
+                    <span class="why-tag"><i class="bi bi-patch-check me-1"></i>Por qué elegir El Descanso Eterno</span>
+                    <h2 class="why-title">Tranquilidad absoluta a pasos de los principales distritos financieros</h2>
+                    <p class="text-muted">
+                        Nuestro concepto arquitectónico integra ventanas termoacústicas de cuádruple capa y sistemas
+                        de purificación de aire continuo para asegurar que las noches de Lima sean realmente reparadoras.
+                    </p>
+                    <div class="row g-3 mt-1">
+                        <div class="col-sm-6 why-item">
+                            <i class="bi bi-buildings text-brand"></i>
+                            <div><strong>Centro Empresarial</strong>
+                                <small>5 min de Canaval y Moreyra y centros corporativos.</small></div>
+                        </div>
+                        <div class="col-sm-6 why-item">
+                            <i class="bi bi-volume-mute text-brand"></i>
+                            <div><strong>Silencio Garantizado</strong>
+                                <small>Aislamiento acústico de hasta 48 dB en cada piso.</small></div>
+                        </div>
+                        <div class="col-sm-6 why-item">
+                            <i class="bi bi-cup-straw text-brand"></i>
+                            <div><strong>Gastronomía Sanisidrina</strong>
+                                <small>Rodeado de los restaurantes más aclamados del Perú.</small></div>
+                        </div>
+                        <div class="col-sm-6 why-item">
+                            <i class="bi bi-shield-check text-brand"></i>
+                            <div><strong>Seguridad 24 Horas</strong>
+                                <small>Monitoreo continuo y llaves biométricas de acceso.</small></div>
+                        </div>
                     </div>
-                    <p class="text-muted mb-0 fst-italic">"Excelente atención, pude hospedarme junto a mi perro sin problema."</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="why-map">
+                        <iframe title="Ubicación del hotel" loading="lazy"
+                                src="https://maps.google.com/maps?q=Av.+Los+Conquistadores+840,+San+Isidro,+Lima&amp;output=embed"></iframe>
+                        <span class="why-map-tag"><i class="bi bi-geo-alt-fill me-1 text-brand"></i>San Isidro, Lima - Perú</span>
+                    </div>
+                    <div class="why-transfer">
+                        <div>
+                            <strong>¿Necesitas traslado desde el Aeropuerto?</strong>
+                            <small class="d-block text-muted">Servicio de chofer privado previa reservación</small>
+                        </div>
+                        <a th:href="@{/contacto}" class="btn btn-soft btn-sm">Coordinar</a>
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm p-4">
-                    <h6 class="fw-bold mb-1">Jorge Ramírez</h6>
-                    <div class="text-warning small mb-2">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+        </div>
+    </section>
+
+    <section class="band-soft">
+        <div class="container-xl section-block">
+            <h2 class="section-title"><i class="bi bi-quote me-2 text-peach"></i>Lo que dicen nuestros huéspedes</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-3">
+                <div class="col">
+                    <div class="testi-card h-100">
+                        <div class="d-flex justify-content-between"><strong>María Gutiérrez</strong><small class="testi-tag">Huésped Verificada</small></div>
+                        <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                        <p>"Excelente atención. Pude hospedarme junto a mi perro sin ningún problema ni trabas absurdas. El kit de bienvenida para mascotas fue un detalle insuperable."</p>
+                        <small class="testi-foot"><i class="bi bi-calendar3 me-1"></i>Marzo 2025 • Habitación Pet Friendly</small>
                     </div>
-                    <p class="text-muted mb-0 fst-italic">"El desayuno buffet superó mis expectativas, volveré sin duda."</p>
+                </div>
+                <div class="col">
+                    <div class="testi-card h-100">
+                        <div class="d-flex justify-content-between"><strong>Jorge Ramírez</strong><small class="testi-tag">Viajero Corporativo</small></div>
+                        <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                        <p>"El desayuno buffet superó mis expectativas con frutas frescas de estación y café de especialidad. La cama es sumamente cómoda y el WiFi nunca se cortó durante mis reuniones."</p>
+                        <small class="testi-foot"><i class="bi bi-calendar3 me-1"></i>Febrero 2025 • Habitación Simple</small>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="testi-card h-100">
+                        <div class="d-flex justify-content-between"><strong>Lucía Torres</strong><small class="testi-tag">Estadía de Fin de Semana</small></div>
+                        <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></div>
+                        <p>"Hotel cómodo, extremadamente limpio y con muy buena ubicación en San Isidro. Se puede caminar seguro a boutiques, parques y cafés en cualquier momento del día."</p>
+                        <small class="testi-foot"><i class="bi bi-calendar3 me-1"></i>Enero 2025 • Habitación Doble</small>
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm p-4">
-                    <h6 class="fw-bold mb-1">Lucía Torres</h6>
-                    <div class="text-warning small mb-2">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-                    </div>
-                    <p class="text-muted mb-0 fst-italic">"Hotel cómodo, limpio y con muy buena ubicación."</p>
+        </div>
+    </section>
+
+    <section class="container-xl section-block">
+        <div class="cta-box">
+            <div class="row align-items-center g-3">
+                <div class="col-lg-8">
+                    <span class="cta-tag"><i class="bi bi-tag me-1"></i>Tarifa oficial garantizada</span>
+                    <h2 class="cta-title">Reserva directo con nosotros y ahorra hasta un 15%</h2>
+                    <p class="mb-0 cta-text">
+                        Garantizamos el mejor precio sin cargos ocultos de agencias intermediarias, con check-out tardío
+                        gratuito según disponibilidad.
+                    </p>
+                </div>
+                <div class="col-lg-4 d-flex flex-wrap gap-2 justify-content-lg-end">
+                    <a href="tel:+5114225890" class="btn btn-light fw-semibold"><i class="bi bi-telephone me-2"></i>Llamar ahora</a>
+                    <a th:href="@{/habitaciones#formularioSolicitud}" class="btn btn-peach fw-bold">Reservar en línea</a>
                 </div>
             </div>
         </div>
     </section>
 
 </div>
+
+<th:block layout:fragment="scripts">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ci = document.getElementById('checkin');
+            const co = document.getElementById('checkout');
+            if (!ci || !co) return;
+            const iso = d => d.toISOString().slice(0, 10);
+            const hoy = new Date();
+            const salida = new Date(hoy.getTime() + 3 * 86400000);
+            ci.min = iso(hoy); ci.value = iso(hoy);
+            co.min = iso(hoy); co.value = iso(salida);
+            ci.addEventListener('change', () => {
+                co.min = ci.value;
+                if (co.value < ci.value) co.value = ci.value;
+            });
+        });
+    </script>
+</th:block>
 </body>
 </html>

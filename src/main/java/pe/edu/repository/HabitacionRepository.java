@@ -1,19 +1,20 @@
-package pe.edu.utp.hoteldescansoeterno_v2.repository;
+package pe.edu.repository;
 
-import pe.edu.utp.hoteldescansoeterno_v2.entity.Habitacion;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import pe.edu.entity.Habitacion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+@Repository
 public interface HabitacionRepository
         extends JpaRepository<Habitacion, Long> {
 
-    // SELECT utilizando JPA mediante JPQL
-    @Query("SELECT * FROM Habitacion h WHERE h.tipo = :tipo")
-    List<Habitacion> buscarPorTipo(String tipo);
+    @Query("SELECT h FROM Habitacion h WHERE h.tipo = :tipo")
+    List<Habitacion> buscarPorTipo(@Param("tipo") String tipo);
 
-    // SELECT utilizando SQL nativo
     @Query(
         value = "SELECT * FROM habitaciones WHERE precio > :precio",
         nativeQuery = true

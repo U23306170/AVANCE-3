@@ -1,8 +1,8 @@
-package pe.edu.utp.hoteldescansoeterno_v2.serviceImpl;
+package pe.edu.serviceImpl;
 
-import pe.edu.utp.hoteldescansoeterno_v2.entity.Habitacion;
-import pe.edu.utp.hoteldescansoeterno_v2.repository.HabitacionRepository;
-import pe.edu.utp.hoteldescansoeterno_v2.service.HabitacionService;
+import pe.edu.entity.Habitacion;
+import pe.edu.repository.HabitacionRepository;
+import pe.edu.service.HabitacionService;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

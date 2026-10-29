@@ -9,37 +9,187 @@
 <body>
 <div layout:fragment="content">
 
-    <div class="bg-secondary text-white py-5">
-        <div class="container">
-            <p class="text-uppercase text-warning fw-bold small mb-2" style="letter-spacing:2px">Acceso</p>
-            <h1 class="display-5 fw-bold">Iniciar sesión</h1>
+    <section class="login-hero">
+        <div class="container-xl">
+            <span class="hero-pill"><i class="bi bi-circle-fill me-1"></i>ACCESO AL SISTEMA</span>
+            <h1 class="hero-title mt-2 mb-2">Iniciar sesión</h1>
+            <p class="hero-lead mb-0">
+                Gestione su estadía, servicios de conserjería o acceda a la consola operativa de Hotel El Descanso Eterno.
+            </p>
         </div>
-    </div>
+    </section>
 
-    <div class="container my-5 d-flex justify-content-center">
-        <div class="card shadow p-4" style="max-width:420px;width:100%">
+    <section class="login-body">
+        <div class="container-xl">
+            <div class="row g-4">
 
-            <div class="alert alert-success" th:if="${mensajeExito != null}" th:text="${mensajeExito}"></div>
+                <div class="col-lg-4 order-2 order-lg-1 login-side">
+                    <div class="side-card mb-3">
+                        <h5 class="side-title"><i class="bi bi-star text-brand me-2"></i>Experiencia Huésped</h5>
+                        <p class="text-muted">
+                            ¿Tiene una reserva confirmada? Puede ingresar con su correo personal para solicitar
+                            early check-in, servicio al cuarto o consultar su itinerario.
+                        </p>
+                        <a th:href="@{/contacto}" class="express-link">
+                            <i class="bi bi-ticket-perforated text-brand fs-4"></i>
+                            <span><strong>Consulta Exprés</strong><small class="d-block text-muted">Solo con su código de reserva</small></span>
+                            <i class="bi bi-arrow-right express-arrow"></i>
+                        </a>
+                    </div>
 
-            <!-- Nota: por ahora el login es simulado (no hay Spring Security todavía) -->
-            <form th:action="@{/login}" method="post" class="needs-validation" novalidate>
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Usuario</label>
-                    <input type="text" class="form-control" name="username" placeholder="Ingresa tu usuario" required autofocus>
-                    <div class="invalid-feedback">El usuario es obligatorio.</div>
+                    <div class="side-card mb-3">
+                        <h5 class="side-title"><i class="bi bi-headset text-peach me-2"></i>Atención Inmediata</h5>
+                        <p class="text-muted small">
+                            Para credenciales institucionales o inconvenientes en su cuenta, contacte directamente
+                            a la central de recepción San Isidro.
+                        </p>
+                        <p class="mb-1 small"><i class="bi bi-telephone-inbound text-brand me-2"></i><strong>+51 (1) 422-5890</strong> <span class="text-muted">(Anexo 102)</span></p>
+                        <p class="mb-0 small text-muted"><i class="bi bi-envelope-at text-brand me-2"></i>soporte@eldescansoeterno.pe</p>
+                    </div>
+
+                    <div class="ssl-strip">
+                        <span><i class="bi bi-lock me-2"></i>Cifrado SSL 256-bit Verificado</span>
+                        <span class="text-peach">ISO 27001</span>
+                    </div>
                 </div>
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Contraseña</label>
-                    <input type="password" class="form-control" name="password" placeholder="Ingresa tu contraseña" required>
-                    <div class="invalid-feedback">La contraseña es obligatoria.</div>
+
+                <div class="col-lg-8 order-1 order-lg-2">
+                    <div class="login-card">
+
+                        <ul class="nav nav-tabs login-tabs" id="loginTabs" role="tablist">
+                            <li class="nav-item flex-fill" role="presentation">
+                                <button class="nav-link active w-100" id="tab-huesped" data-bs-toggle="tab"
+                                        data-bs-target="#pane-huesped" type="button" role="tab">
+                                    <i class="bi bi-luggage me-2"></i>Portal Huéspedes
+                                </button>
+                            </li>
+                            <li class="nav-item flex-fill" role="presentation">
+                                <button class="nav-link w-100" id="tab-admin" data-bs-toggle="tab"
+                                        data-bs-target="#pane-admin" type="button" role="tab">
+                                    <i class="bi bi-shield-lock me-2"></i>Administración
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="login-form-wrap">
+                            <div class="alert alert-success" th:if="${mensajeExito != null}" th:text="${mensajeExito}"></div>
+
+                            <div class="tab-content">
+
+                                <div class="tab-pane fade show active" id="pane-huesped" role="tabpanel">
+                                    <h3 class="login-heading">Bienvenido al Portal de Huéspedes</h3>
+                                    <p class="text-muted">Ingrese su correo electrónico registrado al reservar para revisar o modificar su estancia.</p>
+
+                                    <form th:action="@{/login}" method="post" class="needs-validation" novalidate>
+                                        <div class="d-flex justify-content-between">
+                                            <label class="form-label fw-semibold" for="userH">Correo electrónico o Usuario</label>
+                                            <small class="text-muted">Requerido</small>
+                                        </div>
+                                        <div class="input-icon mb-4">
+                                            <i class="bi bi-envelope"></i>
+                                            <input type="text" id="userH" class="form-control" name="username"
+                                                   placeholder="ejemplo@correo.com" required autofocus>
+                                            <div class="invalid-feedback">El usuario es obligatorio.</div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <label class="form-label fw-semibold" for="passH">Contraseña</label>
+                                            <a href="#" class="small text-brand text-decoration-none">¿Olvidó su contraseña?</a>
+                                        </div>
+                                        <div class="input-icon mb-3">
+                                            <i class="bi bi-lock"></i>
+                                            <input type="password" id="passH" class="form-control" name="password"
+                                                   placeholder="••••••••••••" required>
+                                            <button type="button" class="toggle-pass" data-target="passH" aria-label="Mostrar contraseña">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <div class="invalid-feedback">La contraseña es obligatoria.</div>
+                                        </div>
+
+                                        <div class="form-check mb-4">
+                                            <input class="form-check-input" type="checkbox" id="recordarH" name="recordar">
+                                            <label class="form-check-label" for="recordarH">Recordar mi sesión en este equipo</label>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-brand w-100 py-3 fw-semibold">
+                                            <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar sesión
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <div class="tab-pane fade" id="pane-admin" role="tabpanel">
+                                    <h3 class="login-heading">Consola Operativa</h3>
+                                    <p class="text-muted">Acceso exclusivo para personal autorizado del hotel con credenciales institucionales.</p>
+
+                                    <form th:action="@{/login}" method="post" class="needs-validation" novalidate>
+                                        <div class="d-flex justify-content-between">
+                                            <label class="form-label fw-semibold" for="userA">Usuario institucional</label>
+                                            <small class="text-muted">Requerido</small>
+                                        </div>
+                                        <div class="input-icon mb-4">
+                                            <i class="bi bi-person-badge"></i>
+                                            <input type="text" id="userA" class="form-control" name="username"
+                                                   placeholder="usuario.institucional" required>
+                                            <div class="invalid-feedback">El usuario es obligatorio.</div>
+                                        </div>
+
+                                        <label class="form-label fw-semibold" for="passA">Contraseña</label>
+                                        <div class="input-icon mb-3">
+                                            <i class="bi bi-lock"></i>
+                                            <input type="password" id="passA" class="form-control" name="password"
+                                                   placeholder="••••••••••••" required>
+                                            <button type="button" class="toggle-pass" data-target="passA" aria-label="Mostrar contraseña">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <div class="invalid-feedback">La contraseña es obligatoria.</div>
+                                        </div>
+
+                                        <div class="form-check mb-4">
+                                            <input class="form-check-input" type="checkbox" id="recordarA" name="recordar">
+                                            <label class="form-check-label" for="recordarA">Recordar mi sesión en este equipo</label>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-brand w-100 py-3 fw-semibold">
+                                            <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar sesión
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="divider-text"><span>OTRAS OPCIONES DE GESTIÓN</span></div>
+
+                            <div class="track-box">
+                                <span class="track-icon"><i class="bi bi-person-vcard"></i></span>
+                                <div class="flex-grow-1">
+                                    <strong>¿Aún no tiene cuenta web?</strong>
+                                    <small class="d-block text-muted">Puede rastrear su confirmación al instante utilizando solo su código alfa-numérico.</small>
+                                </div>
+                                <a th:href="@{/contacto}" class="btn btn-white-brand">Rastrear Reserva</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar sesión
-                </button>
-            </form>
+
+            </div>
         </div>
-    </div>
+    </section>
 
 </div>
+
+<th:block layout:fragment="scripts">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.toggle-pass').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const input = document.getElementById(btn.dataset.target);
+                    const icon = btn.querySelector('i');
+                    const show = input.type === 'password';
+                    input.type = show ? 'text' : 'password';
+                    icon.className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+                });
+            });
+        });
+    </script>
+</th:block>
 </body>
 </html>
